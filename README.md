@@ -41,10 +41,10 @@ MBA-DATA-COLLECTION/
 ### `.devcontainer/devcontainer.json`
 
 * **Finalidade**: Este é o arquivo que automatiza a experiência no GitHub Codespaces. Ele instrui a plataforma a:
-    1.  Utilizar o arquivo `docker-compose.yml` para definir os serviços.
-    2.  Conectar o editor de código ao contêiner principal (`jupyterlab`).
-    3.  Executar o comando `docker compose up -d` automaticamente após a criação do ambiente.
-    4.  Encaminhar as portas dos serviços (Jupyter, MinIO, etc.) e abrir o JupyterLab no navegador, tornando o ambiente pronto para uso sem qualquer intervenção manual.
+    * **`Utilizar o arquivo `docker-compose.yml` para definir os serviços.
+    * **`Conectar o editor de código ao contêiner principal (`jupyterlab`).
+    * **`Executar o comando `docker compose up -d` automaticamente após a criação do ambiente.
+    * **`Encaminhar as portas dos serviços (Jupyter, MinIO, etc.) e abrir o JupyterLab no navegador, tornando o ambiente pronto para uso sem qualquer intervenção manual.
 
 ### `notebooks/`
 
