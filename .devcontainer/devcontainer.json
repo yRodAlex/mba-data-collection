@@ -1,16 +1,11 @@
 {
 	"name": "Data Collection and Storage Lab",
-	// Utiliza o docker-compose.yml para definir os serviços.
 	"dockerComposeFile": [
 		"../docker-compose.yml"
 	],
-	// O serviço 'jupyterlab' será o principal, onde o VS Code se conectará.
 	"service": "jupyterlab",
-	// A pasta de trabalho padrão ao abrir o Codespace.
 	"workspaceFolder": "/home/jovyan/work",
-	// Comandos a serem executados APENAS UMA VEZ, após a criação do Codespace.
 	"postCreateCommand": "docker compose -f ../docker-compose.yml up -d",
-	// Portas dos serviços que serão automaticamente encaminhadas e nomeadas.
 	"forwardPorts": [
 		8888,
 		9001,
@@ -19,11 +14,10 @@
 		5432,
 		27017
 	],
-	// Configurações avançadas para as portas encaminhadas.
 	"portsAttributes": {
 		"8888": {
 			"label": "JupyterLab",
-			"onAutoForward": "openBrowser" // Abre o JupyterLab automaticamente no navegador.
+			"onAutoForward": "notify"
 		},
 		"9001": {
 			"label": "MinIO Console",
@@ -32,16 +26,6 @@
 		"8083": {
 			"label": "Kafka Connect API",
 			"onAutoForward": "notify"
-		}
-	},
-	// Instala extensões úteis do VS Code automaticamente no ambiente.
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-python.python",
-				"ms-azuretools.vscode-docker",
-				"ms-toolsai.jupyter"
-			]
 		}
 	}
 }
