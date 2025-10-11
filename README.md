@@ -1,152 +1,195 @@
-# Ambiente de Laboratório - Data Collection and Storage
+# Desenvolvimento PySpark e PostgreSQL
 
-## Contexto Geral
+Este repositório fornece um ambiente de desenvolvimento pré-configurado para projetos que utilizam PySpark, Pandas e PostgreSQL. O objetivo principal é padronizar e acelerar a configuração do ambiente de trabalho através do uso de Dev Containers e GitHub Codespaces.
 
-Este repositório contém a infraestrutura completa para o laboratório da disciplina de Data Collection and Storage. O projeto utiliza o Docker Compose para provisionar uma stack moderna de engenharia de dados, permitindo que os alunos executem casos de uso práticos em um ambiente isolado, reprodutível e acessível diretamente pela nuvem através do GitHub Codespaces.
+---
 
-O objetivo é fornecer uma experiência prática com ferramentas padrão da indústria, focando em um na ingestão de dados que vai desde bancos operacionais (SQL e NoSQL), processos de pré-processamento e armazenagem até um data lakehouse, passando por uma plataforma de streaming de eventos em tempo real.
+## Sobre o Ambiente e a Tecnologia
 
-## Stack de Tecnologias
+Este é um template de ambiente de desenvolvimento baseado na especificação **Dev Containers** e projetado para ser executado na plataforma **GitHub Codespaces**. Ele automatiza a criação de um ambiente de desenvolvimento conteinerizado que já inclui todas as ferramentas e dependências necessárias.
 
-Este ambiente é composto pelos seguintes serviços, cada um em seu próprio contêiner, simulando uma arquitetura de dados moderna:
+### O que é um Dev Container?
 
-* **JupyterLab**: É o ambiente de desenvolvimento interativo principal. Através de notebooks (`.ipynb`), os alunos irão escrever e executar código Python e Spark para interagir com todos os outros serviços da stack.
-    * **PySpark**: A biblioteca que permite usar o poder do Apache Spark em Python. É a principal ferramenta para processamento de dados em larga escala (ETL, pré-processamento, etc.).
-    * **Apache Iceberg**: Um formato de tabela aberta de alto desempenho para data lakes. Ele será usado para criar e gerenciar as tabelas do nosso data lakehouse sobre os dados armazenados no MinIO.
-* **MinIO**: Um servidor de armazenamento de objetos compatível com a API do Amazon S3. No nosso projeto, ele funciona como o **Data Lake**, o repositório central para armazenar dados brutos e processados em diversos formatos (CSV, Parquet, tabelas Iceberg, etc.).
-* **PostgreSQL**: Um robusto banco de dados relacional (SQL). Ele simula uma **fonte de dados operacional** transacional, como um sistema de e-commerce ou um CRM, de onde os dados serão coletados.
-* **MongoDB**: Um banco de dados não-relacional (NoSQL) orientado a documentos. Ele simula outra **fonte de dados operacional** comum, ideal para dados semiestruturados ou flexíveis.
-* **Apache Kafka**: Uma plataforma de streaming de eventos distribuída. Funciona como o "sistema nervoso central" para o tráfego de dados em tempo real. Eventos de alteração dos bancos de dados serão publicados aqui.
-* **Debezium (rodando no Kafka Connect)**: Uma ferramenta de **Captura de Dados de Mudança (CDC)**. O Debezium monitora os logs de transações do PostgreSQL, captura todas as inserções, atualizações e exclusões em tempo real e as publica como eventos no Kafka, sem a necessidade de modificar as aplicações originais.
+Um **Dev Container (ou Contêiner de Desenvolvimento)** é um ambiente de desenvolvimento completo que roda dentro de um contêiner Docker. Trata-se de um padrão de código aberto que permite definir todos os componentes de um ambiente como código.
 
-## Estrutura do Projeto e Finalidade dos Arquivos
+* **Como funciona?** Através de um arquivo de configuração (`.devcontainer/devcontainer.json`), você especifica tudo o que o projeto precisa: o sistema operacional base, versões de linguagens (Python, etc.), ferramentas, extensões do editor (VS Code) e configurações.
+* **Qual o benefício?** Ele resolve o clássico problema do "mas na minha máquina funciona". Como o ambiente é definido em código, qualquer pessoa que abrir o projeto terá um ambiente **idêntico, consistente e reproduzível**, garantindo que o código se comporte da mesma forma para todos.
 
-A estrutura de arquivos foi projetada para ser intuitiva e otimizada para a execução no GitHub Codespaces.
+### O que é o GitHub Codespaces?
 
+O **GitHub Codespaces** é um produto da GitHub que oferece ambientes de desenvolvimento completos na nuvem. Pense nele como "Dev Containers como um Serviço".
+
+* **Como funciona?** O Codespaces lê a configuração do Dev Container (`.devcontainer/`) diretamente do seu repositório. Em seguida, ele utiliza essa configuração para construir e hospedar o seu ambiente em uma máquina virtual poderosa na nuvem. Você acessa este ambiente completo através do seu navegador, sem precisar instalar nada localmente.
+* **Qual o benefício?** Ele combina o poder da padronização dos Dev Containers com a flexibilidade da nuvem. Você pode programar de qualquer dispositivo, ter acesso a recursos computacionais robustos sob demanda e começar a trabalhar em um projeto novo em questão de minutos, com o ambiente já 100% configurado.
+
+---
+
+## O que é este repositório?
+
+Este é um template de ambiente de desenvolvimento baseado na especificação **Dev Containers** e projetado para ser executado na plataforma **GitHub Codespaces**.
+
+Ele automatiza a criação de um ambiente de desenvolvimento conteinerizado que já inclui todas as ferramentas e dependências necessárias para iniciar um projeto de dados.
+
+## Tecnologias Inclusas
+
+O ambiente provisionado inclui as seguintes ferramentas:
+
+* **Python 3.11:** Linguagem de programação base.
+* **Apache Spark (via PySpark):** Plataforma para processamento de dados em larga escala.
+* **Pandas:** Biblioteca para manipulação e análise de dados.
+* **PostgreSQL:** Banco de dados relacional de código aberto.
+* **Docker:** Plataforma de containerização que gerencia o ambiente.
+* **GitHub Codespaces:** Plataforma de nuvem que hospeda e executa o ambiente.
+
+---
+
+## Principais Vantagens
+
+* **Inicialização Rápida:** O ambiente fica pronto para uso em poucos minutos, eliminando a necessidade de instalações e configurações manuais.
+* **Consistência:** Garante que todos os usuários operem com a mesma configuração de software e dependências, prevenindo problemas de compatibilidade entre diferentes máquinas.
+* **Isolamento:** As ferramentas e bibliotecas são executadas dentro de containers, não interferindo com a configuração da máquina local do usuário.
+* **Portabilidade:** O ambiente pode ser acessado de qualquer dispositivo com um navegador web, sem depender da potência do hardware local.
+
+---
+
+## Guia de Utilização
+
+Para utilizar este ambiente, siga os passos abaixo.
+
+### Passo 1: Criar um "Fork" do Repositório
+
+É recomendado criar uma cópia pessoal deste repositório na sua conta do GitHub. Um "fork" permite que você modifique o código livremente.
+
+1.  Clique no botão **"Fork"** no canto superior direito desta página.
+2.  Na tela seguinte, confirme a criação do fork clicando em **"Create fork"**.
+
+### Passo 2: Iniciar o GitHub Codespace
+
+O Codespace irá construir e iniciar o ambiente de desenvolvimento.
+
+1.  Na página do seu fork, clique no botão verde **`< > Code`**.
+2.  Selecione a aba **"Codespaces"**.
+3.  Clique em **"Create codespace on main"**.
+
+O processo de inicialização pode levar alguns minutos, especialmente no primeiro uso. Ao final, uma nova aba será aberta com uma instância do VS Code funcional em seu navegador.
+
+### Passo 3: Verificação do Ambiente
+
+Para confirmar que todos os serviços estão operacionais e se comunicando, execute os scripts de teste localizados na pasta `src/`.
+
+Abra o terminal integrado no VS Code (geralmente na parte inferior da tela) e execute os seguintes comandos:
+
+* **Teste do Pandas:**
+    ```bash
+    python src/teste_pandas.py
+    ```
+    *(A saída esperada é a impressão de DataFrames com dados de produtos).*
+
+* **Teste do Spark:**
+    ```bash
+    python src/teste_spark.py
+    ```
+    *(A saída deve ser similar à do teste do Pandas, mas processada pelo Spark).*
+
+* **Teste de Conexão com o PostgreSQL:**
+    ```bash
+    python src/teste_postgres.py
+    ```
+    *(A saída esperada é uma mensagem de sucesso com a versão do PostgreSQL).*
+
+A execução bem-sucedida de todos os scripts confirma que o ambiente está configurado corretamente.
+
+---
+
+## Salvando e Enviando Alterações para o GitHub (Fluxo Básico do Git)
+
+Após modificar ou criar arquivos, você precisa salvar seu progresso no GitHub. Este é o ciclo padrão que você usará repetidamente.
+
+### Passo 1: Verificar o Status das Alterações
+
+Antes de tudo, veja o que você modificou. Este comando lista todos os arquivos novos, modificados ou deletados.
+
+```bash
+git status
 ```
-MBA-DATA-COLLECTION/
-│
-├── .devcontainer/
-│   └── devcontainer.json      # Automatiza a configuração do ambiente no Codespaces.
-│
-├── notebooks/
-│   ├── 00-Configuracao-Spark.ipynb
-│   └── .gitkeep               # Garante a existência da pasta 'notebooks' no Git.
-│
-├── .gitignore                 # Define quais arquivos devem ser ignorados pelo Git.
-├── docker-compose.yml         # "Planta baixa" da infraestrutura de serviços.
-└── README.md                  # Este guia.
+
+### Passo 2: Adicionar as Alterações para "Empacotamento"
+
+Adicione os arquivos que você deseja salvar ao "pacote" (Staging Area).
+
+```bash
+# Para adicionar TODOS os arquivos modificados e novos
+git add .
+
+# Ou, para adicionar um arquivo específico
+git add src/seu_novo_arquivo.py
 ```
 
-### `.devcontainer/devcontainer.json`
+### Passo 3: Criar um "Pacote" de Salvamento (Commit)
 
-* **Finalidade**: Este é o arquivo que automatiza a experiência no GitHub Codespaces. Ele instrui a plataforma a:
-    1.  Utilizar o arquivo `docker-compose.yml` para definir os serviços.
-    2.  Conectar o editor de código ao contêiner principal (`jupyterlab`).
-    3.  Executar o comando `docker compose up -d` automaticamente após a criação do ambiente.
-    4.  Encaminhar as portas dos serviços (Jupyter, MinIO, etc.) e abrir o JupyterLab no navegador, tornando o ambiente pronto para uso sem qualquer intervenção manual.
+Crie um ponto na história do projeto com as alterações que você adicionou. **É crucial escrever uma mensagem clara** que descreva o que você fez.
 
-### `notebooks/`
+```bash
+git commit -m "Sua mensagem descritiva aqui"
 
-* **Finalidade**: Esta é a pasta de trabalho principal para os alunos.
-    * **`00-Configuracao-Spark.ipynb`**: Contém o código essencial e reutilizável para inicializar a `SparkSession` com todas as dependências e configurações necessárias para se conectar ao MinIO, Iceberg, PostgreSQL e MongoDB. Este notebook deve ser o ponto de partida para todos os exercícios.
-    * **`.gitkeep`**: Um arquivo vazio cuja única função é garantir que a pasta `notebooks`, mesmo que inicialmente vazia de outros arquivos, seja incluída no repositório Git.
+# Exemplo:
+# git commit -m "Adiciona script para calcular vendas mensais"
+```
 
-### `.gitignore`
+### Passo 4: Enviar as Alterações para o GitHub
 
-* **Finalidade**: Define uma lista de arquivos e pastas que o sistema de controle de versão Git deve ignorar. Isso é crucial para manter o repositório limpo, evitando o envio de arquivos de cache (`__pycache__`), logs, credenciais locais ou arquivos de configuração de editores de código (`.vscode/`, `.idea/`).
+Envie o seu "pacote" (commit) para o seu repositório remoto no GitHub, atualizando o projeto na nuvem.
 
-### `docker-compose.yml`
+```bash
+git push
+```
+O ciclo completo é: **`status` → `add` → `commit` → `push`**.
 
-* **Finalidade**: Este é o coração da infraestrutura. É um arquivo declarativo que descreve todos os serviços (contêineres) que compõem o ambiente, suas imagens, configurações, variáveis de ambiente, portas mapeadas, volumes de dados e como eles se conectam através de uma rede virtual privada. Ele garante que toda a stack seja iniciada de forma orquestrada e reprodutível com um único comando.
+---
 
-### `README.md`
+## Gerenciamento do Codespace
 
-* **Finalidade**: É a porta de entrada e o guia principal do projeto. Ele contém as instruções essenciais sobre o que é o projeto, quais tecnologias utiliza e, mais importante, o passo a passo de como iniciar e utilizar o ambiente de laboratório.
+### Renomeando um Codespace
 
-## Execução do Ambiente na Nuvem (GitHub Codespaces)
+Por padrão, o GitHub gera nomes aleatórios para os Codespaces (ex: `fictional-space-engine-g45pr7q7wxf6p7r`), o que pode dificultar a identificação se você tiver vários. É uma boa prática renomeá-los para algo mais descritivo.
 
-Este é o método principal e recomendado. Ele é totalmente automatizado.
+1.  Acesse a sua lista de Codespaces em: **[github.com/codespaces](https://github.com/codespaces)**.
+2.  Encontre o Codespace que deseja renomear e clique no menu de três pontos (`...`).
+3.  Selecione a opção **"Rename"** (Renomear) e insira o novo nome.
 
-#### Pré-requisitos
+### Conectando ao Banco de Dados PostgreSQL
 
-* Uma conta GitHub com o **GitHub Student Developer Pack** ativo. Inscreva-se em [**education.github.com/pack**](https://education.github.com/pack) para obter uma quota mensal gratuita para o Codespaces.
+Você pode interagir diretamente com o banco de dados PostgreSQL de dentro do VS Code, sem precisar de ferramentas externas. Isso é possível graças a uma extensão que já vem pré-instalada neste ambiente.
 
-#### Passo a Passo da Execução
+**Passo a Passo para Conectar e Executar uma Consulta:**
 
-1.  **Iniciar o Codespace**:
-    * Navegue até o repositório do projeto no GitHub.
-    * Clique no botão verde **`< > Code`**, selecione a aba **"Codespaces"** e clique em **"Create codespace on main"**.
-2.  **Aguarde a Automação**:
-    * O Codespace será criado. A configuração no arquivo `.devcontainer/devcontainer.json` irá **automaticamente**:
-        1.  Iniciar todos os serviços da stack com `docker compose up -d`.
-        2.  Encaminhar as portas necessárias (Jupyter, MinIO, entre outros.).
-        3.  Abrir a interface do **JupyterLab em uma nova aba do seu navegador**.
-    * O ambiente estará pronto para uso em poucos minutos, sem a necessidade de executar nenhum comando manual.
+1.  **Abra a Aba do Banco de Dados:**
+    * Na barra de atividades do lado esquerdo do VS Code, clique no ícone que parece um cilindro (banco de dados).
 
-## Pontos de Acesso e Utilização
+2.  **Crie uma Nova Conexão:**
+    * No painel da extensão, clique no ícone `+` para adicionar uma nova conexão.
 
-### Acesso aos Serviços no Codespaces
+3.  **Preencha os Detalhes da Conexão:**
+    * Um formulário aparecerá. Preencha-o com as **exatas** credenciais definidas no arquivo `.devcontainer/docker-compose.yml`:
+        * **Host:** `db`  *(Este é o nome do serviço do Postgres no Docker Compose. **Não use `localhost`**)*.
+        * **User:** `myuser`
+        * **Password:** `mypassword`
+        * **Port:** `5432` *(padrão)*
+        * **Database:** `mydb`
+    * Clique no botão **"Connect"**.
 
-1.  O **JupyterLab** (`porta 8888`) abrirá automaticamente. A senha é `jupyterlab`.
-2.  Para acessar outros serviços (como o MinIO Console), vá para a aba **"PORTS"** no painel inferior do Codespace.
-3.  Clique no link **"Forwarded Address"** ao lado do serviço desejado (exemplo: MinIO Console na porta 9001).
+4.  **Explore e Consulte o Banco de Dados:**
+    * Se a conexão for bem-sucedida, você verá a conexão `db` listada no painel.
+    * Você pode expandi-la para ver seu banco de dados (`mydb`), schemas (como `public`) e tabelas (se houver alguma).
+    * Para executar uma consulta, clique com o botão direito na sua conexão ou no banco de dados e selecione **"New Query"**. Uma nova aba se abrirá.
+    * Digite um comando SQL (ex: `SELECT version();` ou `SELECT * FROM sua_tabela;`) e clique no botão **"Run"** (ou use o atalho `Ctrl+Alt+E`). Os resultados aparecerão em uma tabela na parte inferior.
 
-### Utilizando os Notebooks
+---
 
-1.  No JupyterLab, navegue até a pasta `notebooks`.
-2.  Abra o notebook **`00-Configuracao-Spark.ipynb`** e execute a célula para inicializar o Spark.
-3.  Crie novos notebooks nesta pasta para os exercícios.
+## Próximos Passos
 
-## Gerenciando o Ambiente Codespaces (MUITO IMPORTANTE)
+Com o ambiente funcional, as seguintes ações podem ser realizadas:
 
-Para evitar o consumo da sua quota gratuita, **sempre pare o Codespace quando não estiver usando**.
-
-* **Como Parar**: Vá para [**github.com/codespaces**](https://github.com/codespaces), clique nos três pontos (`...`) ao lado do seu codespace e selecione **"Stop codespace"**.
-
-## (Alternativa) Execução Local
-
-Esta opção é para usuários que desejam rodar toda a infraestrutura diretamente em sua própria máquina, sem depender da nuvem.
-
-### Pré-requisitos
-
-1.  **Git**: Essencial para clonar o repositório.
-2.  **Docker Desktop**: A aplicação que gerencia os contêineres.
-    * **Usuários Windows**: É **obrigatório** ter o **WSL 2 (Windows Subsystem for Linux)** instalado e habilitado.
-
-### Passo a Passo da Execução
-
-1.  **Clonar o Repositório**:
-    * Abra um terminal (Git Bash, PowerShell, etc.).
-    * Navegue até o diretório onde deseja salvar o projeto e execute o comando:
-        ```bash
-        git clone <URL_DO_SEU_REPOSITORIO_NO_GITHUB>
-        ```
-    * Entre na pasta do projeto:
-        ```bash
-        cd <NOME_DA_PASTA_DO_PROJETO>
-        ```
-2.  **Iniciar a Infraestrutura**:
-    * No terminal, dentro da pasta do projeto, execute:
-        ```bash
-        docker compose up -d
-        ```
-    * **Nota**: Na primeira vez, o Docker fará o download de todas as imagens, o que pode levar vários minutos. Nas execuções seguintes, o processo será quase instantâneo.
-
-### Acesso aos Serviços (Localhost)
-
-Quando rodando localmente, os serviços são acessados através do `localhost` no seu navegador ou ferramenta de BI:
-
-* **JupyterLab**: `http://localhost:8888` (Senha: `jupyterlab`)
-* **MinIO Console**: `http://localhost:9001` (Usuário/Senha: `minioadmin`)
-* **Kafka Connect API**: `http://localhost:8083`
-* **Spark UI**: `http://localhost:4040` (Fica ativo *após* iniciar uma `SparkSession` no Jupyter)
-* **PostgreSQL**: `localhost:5432`
-* **MongoDB**: `localhost:27017`
-
-### Gerenciando o Ambiente Local
-
-* Para **parar** os serviços (liberando CPU/RAM): `docker compose stop`
-* Para **iniciar** novamente: `docker compose start`
-* Para **parar e remover** os contêineres: `docker compose down`
-* Para **reiniciar o ambiente do zero (deletando os dados)**: `docker compose down -v`
+* Modificar os scripts existentes na pasta `src/`.
+* Adicionar novos scripts Python para desenvolver novas funcionalidades.
+* Utilizar o ambiente para conectar-se a fontes de dados externas, processar informações e armazenar os resultados no banco de dados PostgreSQL.

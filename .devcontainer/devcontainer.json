@@ -1,31 +1,23 @@
 {
-	"name": "Data Collection and Storage Lab",
-	"dockerComposeFile": [
-		"../docker-compose.yml"
-	],
-	"service": "jupyterlab",
-	"workspaceFolder": "/home/jovyan/work",
-	"postCreateCommand": "docker compose -f ../docker-compose.yml up -d",
-	"forwardPorts": [
-		8888,
-		9001,
-		8083,
-		4040,
-		5432,
-		27017
-	],
-	"portsAttributes": {
-		"8888": {
-			"label": "JupyterLab",
-			"onAutoForward": "notify"
-		},
-		"9001": {
-			"label": "MinIO Console",
-			"onAutoForward": "notify"
-		},
-		"8083": {
-			"label": "Kafka Connect API",
-			"onAutoForward": "notify"
-		}
-	}
+  "name": "Python, Spark & PostgreSQL Environment",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.pylintEnabled": true,
+        "python.linting.enabled": true
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-azuretools.vscode-docker",
+        "cweijan.vscode-postgresql-client2"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "forwardPorts": [],
+  "remoteUser": "vscode"
 }

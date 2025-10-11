@@ -1,85 +1,71 @@
-# Byte-compiled / optimized / DLL files
+# Arquivo .gitignore para projetos Python, incluindo ambientes virtuais,
+# arquivos de cache, IDEs e dependências de Big Data.
+
+# -----------------------------------------------------------------------------
+# Bytecode e Cache do Python
+# -----------------------------------------------------------------------------
+# O Python gera arquivos de bytecode (.pyc) para acelerar a execução.
+# Eles são gerados a partir do seu código-fonte e não devem ser versionados.
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
+*.pyd
 
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-notebooks/.ipynb_checkpoints
-
-# Environments
-.env
-.venv
-env/
+# -----------------------------------------------------------------------------
+# Ambientes Virtuais do Python (venv, virtualenv)
+# -----------------------------------------------------------------------------
+# As pastas de ambiente virtual contêm uma cópia do interpretador Python e todas
+# as bibliotecas instaladas. São pesadas e específicas para cada máquina.
+# O arquivo 'requirements.txt' é a forma correta de compartilhar dependências.
+.venv/
 venv/
 ENV/
-env.bak/
-venv.bak/
+env/
+virtualenv/
 
-# IDE-specific files
-.idea/
+# -----------------------------------------------------------------------------
+# Arquivos de IDEs e Editores (VS Code, PyCharm, etc.)
+# -----------------------------------------------------------------------------
+# Editores de código criam pastas com configurações de projeto, histórico local,
+# etc. Essas configurações são específicas do usuário e não devem ser compartilhadas.
 .vscode/
+.idea/
+
+# -----------------------------------------------------------------------------
+# Arquivos de Dependências e Pacotes
+# -----------------------------------------------------------------------------
+# Arquivos gerados durante a instalação de pacotes.
+*.egg-info/
+dist/
+build/
+wheels/
+pip-wheel-metadata/
+
+# -----------------------------------------------------------------------------
+# Logs e Arquivos de Banco de Dados Locais
+# -----------------------------------------------------------------------------
+# Nunca versione arquivos de log ou bancos de dados SQLite locais.
+*.log
+*.sqlite3
+
+# -----------------------------------------------------------------------------
+# Relacionado ao PySpark e Big Data
+# -----------------------------------------------------------------------------
+# Spark pode gerar diretórios de log e checkpoints que não devem ir para o Git.
+derby.log
+*.checkpoint
+
+# -----------------------------------------------------------------------------
+# Arquivos de Sistema Operacional
+# -----------------------------------------------------------------------------
+# Arquivos de metadados criados por diferentes sistemas operacionais.
+.DS_Store    # macOS
+Thumbs.db    # Windows
+
+# -----------------------------------------------------------------------------
+# Arquivos de Configuração Sensíveis
+# -----------------------------------------------------------------------------
+# Uma regra genérica para ignorar arquivos que frequentemente contêm
+# senhas, chaves de API ou outras informações sensíveis.
+# Crie um arquivo .env.example com a estrutura, mas deixe o .env fora do Git.
+.env
