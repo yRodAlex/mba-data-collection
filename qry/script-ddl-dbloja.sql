@@ -63,7 +63,7 @@ CREATE TABLE db_loja.pedido_cabecalho (
     valor_total NUMERIC(10, 2) NOT NULL,    -- Valor total do pedido.
     CONSTRAINT fk_cliente
         FOREIGN KEY(id_cliente)
-        REFERENCES db_loja.clientes(id)
+        REFERENCES db_loja.cliente(id)
 );
 
 -- Tabela: pedido_itens
