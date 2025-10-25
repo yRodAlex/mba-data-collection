@@ -79,7 +79,7 @@ CREATE TABLE db_loja.pedido_itens (
         REFERENCES db_loja.pedido_cabecalho(id),
     CONSTRAINT fk_produto
         FOREIGN KEY(id_produto)
-        REFERENCES db_loja.produtos(id)
+        REFERENCES db_loja.produto(id)
 );
 
 
